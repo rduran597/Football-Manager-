@@ -1,20 +1,34 @@
 package clases;
 
+import java.util.Objects;
+
 public class Jugador extends Persona {
 
     private int dorsal;
-    private double calidad;
     private String posicion;
+    private double calidad;
+
 
     public static final String[] POSICIONES = {"POR", "DEF", "MIG", "DAV"};
 
 
     // constructores
-    public Jugador(String nombre, String apellido, String fechaNacimiento, double sueldo, String posicion, int dorsal) {
-        super(nombre, apellido, fechaNacimiento, sueldo); // super es para llamar al constructor de la clase padre (Persona)
-        this.posicion = posicion;
+
+    // este es para crear jugadores, que tengan la calidad entre 30 y 100
+    public Jugador(String nombre, String apellido, String fechaNacimiento, int sueldo, int dorsal, String posicion, double calidad) {
+        super(nombre, apellido, fechaNacimiento, sueldo);
         this.dorsal = dorsal;
+        this.posicion = posicion;
         this.calidad = 30 + Math.random() * 70; // calidad aleatoria entre 30 y 100
+
+    }
+
+    // este es para los jugadores del mercado
+    public Jugador(String nombre, String apellido, String fechaNacimiento, double motivacion, int sueldo, int dorsal, String posicion, double calidad) {
+        super(nombre, apellido, fechaNacimiento, motivacion, sueldo);
+        this.dorsal = dorsal;
+        this.posicion = posicion;
+        this.calidad = calidad;
     }
 
     // getters
@@ -55,22 +69,35 @@ public class Jugador extends Persona {
         System.out.println("El jugador " + getNombre() + " ha entrenado y su calidad ha aumentado en " + incremento + " puntos. Su nueva calidad es: " + getCalidad());
     }
 
-    // cambiar de posicion (de momento pongo para elegir la posicion y luego la probabilidad. Pendiente de corregir (cambiar a solo tener la probabilidad de poder cambiar y se cambie a una posicion aleatoria)
-    public void canviDePosicio(String nuevaPosicion) {
-        if (nuevaPosicion.equals("POR") || nuevaPosicion.equals("DEF") || nuevaPosicion.equals("MIG") || nuevaPosicion.equals("DAV")) {
+    // metodo para cambiar de posicion (de momento pongo para elegir la posicion y luego la probabilidad. Pendiente de corregir (cambiar a solo tener la probabilidad de poder cambiar y se cambie a una posicion aleatoria)
+    public void canviDePosicio() {
+        // un 5% de probabilidades de conseguir cambiar de posicion
+        if (Math.random() < 0.05) {
 
-            // probabilidad del 5% para cambiar de posicion
-            if (Math.random() < 0.05) {
-                this.posicion = nuevaPosicion;
-                this.calidad += 1;
+            // eleccion aleatoria de cualquien posicion disponible en el array POSICIONES
+            int indiceAleatorio = (int) (Math.random() * POSICIONES.length);
+            posicion = POSICIONES[indiceAleatorio];
 
-                System.out.println("El jugador " + getNombre() + " ha cambiado de posición a " + this.posicion + " y su calidad ha aumentado en 1 punto. Su nueva calidad es: " + getCalidad());
-            } else {
-                System.out.println("El jugador " + getNombre() + " ha intentado cambiar de posición a " + nuevaPosicion + " pero no ha tenido éxito. Su calidad se mantiene en " + getCalidad());
-            }
-        } else {
-            System.out.println("La posición " + nuevaPosicion + " no es válida. Las posiciones válidas son: POR, DEF, MIG, DAV.");
+            // aumentar 1 punto a la calidad del jugador si cambia de posicion
+            this.calidad += 1;
+            if (this.calidad > 100) this.calidad = 100;
+
+            System.out.println("El jugador " + getNombre() + " ha cambiado la posicion de " + posicion + " a" + this.posicion + " y ha aumentado la calidad en " + this.calidad);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Jugador jugador = (Jugador) o;
+        return dorsal == jugador.dorsal &&
+                getNombre().equalsIgnoreCase(jugador.getNombre());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNombre().toLowerCase(), dorsal);
     }
 
     // mostrar atributos + nuevos atributos cambiados (posicion cambiada)

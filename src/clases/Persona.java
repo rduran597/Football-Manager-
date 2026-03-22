@@ -3,17 +3,26 @@ package clases;
 public abstract class Persona {
 
     protected final String nombre, apellido, fechaNacimiento;
-
-    protected double motivacion, sueldo;
-
+    protected double motivacion;
+    protected int sueldo;
     private static int contadorPersonas = 0;
 
     // constructores
-    protected Persona(String nombre, String apellido, String fechaNacimiento, double sueldo) {
+    protected Persona(String nombre, String apellido, String fechaNacimiento, int sueldo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.motivacion = 5.0;
+        this.sueldo = sueldo;
+
+        contadorPersonas++;
+    }
+
+    public Persona(String nombre, String apellido, String fechaNacimiento, double motivacion, int sueldo) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.motivacion = motivacion;
         this.sueldo = sueldo;
 
         contadorPersonas++;

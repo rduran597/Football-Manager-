@@ -7,17 +7,25 @@ public class Entrenador extends Persona {
 
 
     // constructores
-    public Entrenador(String nombre, String apellido, String fechaNacimiento, double sueldo, int torneosGanados, boolean esSeleccionador) {
+
+
+    public Entrenador(String nombre, String apellido, String fechaNacimiento, int sueldo, int torneosGanados, boolean esSeleccionador) {
         super(nombre, apellido, fechaNacimiento, sueldo);
         this.torneosGanados = torneosGanados;
         this.esSeleccionador = esSeleccionador;
     }
 
+    public Entrenador(String nombre, String apellido, String fechaNacimiento, double motivacion, int sueldo, int torneosGanados, boolean esSeleccionador) {
+        super(nombre, apellido, fechaNacimiento, motivacion, sueldo);
+        this.torneosGanados = torneosGanados;
+        this.esSeleccionador = esSeleccionador;
+    }
+
     // metodos
-    protected void incrementSou() {
+    public void incrementSou() {
         double porcentajeAumento = 0.005;
 
-        this.sueldo += this.sueldo * porcentajeAumento;
+        this.sueldo += (int) (this.sueldo * porcentajeAumento);
     }
 
     // metodo de entrenamiento
