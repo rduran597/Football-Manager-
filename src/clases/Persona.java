@@ -29,7 +29,7 @@ public abstract class Persona {
     }
 
     // metodo entrenamiento
-    protected void entrenament() {
+    public void entrenament() {
         this.motivacion += 0.2;
         if (this.motivacion > 10.0) {
             this.motivacion = 10.0;

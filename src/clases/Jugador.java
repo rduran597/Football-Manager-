@@ -31,17 +31,30 @@ public class Jugador extends Persona {
         this.calidad = calidad;
     }
 
-    // getters
+    // getter sand setters
+
     public int getDorsal() {
         return dorsal;
+    }
+
+    public void setDorsal(int dorsal) {
+        this.dorsal = dorsal;
+    }
+
+    public String getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(String posicion) {
+        this.posicion = posicion;
     }
 
     public double getCalidad() {
         return calidad;
     }
 
-    public String getPosicion() {
-        return posicion;
+    public void setCalidad(double calidad) {
+        this.calidad = calidad;
     }
 
 

@@ -43,4 +43,22 @@ public class Entrenador extends Persona {
 
     }
 
+    //getters and setters
+
+
+    public int getTorneosGanados() {
+        return torneosGanados;
+    }
+
+    public void setTorneosGanados(int torneosGanados) {
+        this.torneosGanados = torneosGanados;
+    }
+
+    public boolean isEsSeleccionador() {
+        return esSeleccionador;
+    }
+
+    public void setEsSeleccionador(boolean esSeleccionador) {
+        this.esSeleccionador = esSeleccionador;
+    }
 }

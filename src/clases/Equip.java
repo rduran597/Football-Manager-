@@ -78,7 +78,6 @@ public class Equip {
         return sumaTotal / llistaJugadors.size();
     }
 
-
     // getters and setters
 
     public String getNombre() {
