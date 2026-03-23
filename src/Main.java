@@ -1,5 +1,6 @@
 import clases.*;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -42,6 +43,26 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error al leer el fichero");
         }
+
+        Path equipsDesats = Paths.get("src/fitxers/equips_desats.txt");
+        try {
+            List<String> liniesFitxer = Files.readAllLines(equipsDesats);
+
+            for (String line : liniesFitxer) {
+                String[] dades = line.split(";");
+
+                if (dades[0].equals("E")) {
+                    // se crea un nuevo jugador
+                    // Cambia el final por esto:
+                    Equip e = new Equip(dades[1], dades[2], dades[3], dades[4], Integer.parseInt(dades[5]), null);
+
+                    llistaEquips.add(e);
+            }
+                }
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero");
+        }
+
 
         // login
         System.out.print("Introdueix el teu perfil (admin / gestor): ");
@@ -110,14 +131,14 @@ public class Main {
                         // datos opcionales para el equipo
                         String estadi = "No indicat";
                         System.out.println("Vols afegir el nom de l'estadi?: ");
-                        if (sc.nextLine().equalsIgnoreCase("s")) {
+                        if (sc.nextLine().charAt(0) == 's') {
                             System.out.println("Escriu el nom de l'estadi: ");
                             estadi = sc.nextLine();
                         }
 
                         String president = "No indicat";
                         System.out.println("Vols afegir el nom de l'presidente?: ");
-                        if (sc.nextLine().equalsIgnoreCase("s")) {
+                        if (sc.nextLine().charAt(0) == 's') {
                             System.out.println("Escriu el nom de l'presidente: ");
                             president = sc.nextLine();
                         }
@@ -125,7 +146,7 @@ public class Main {
                         Equip nouEquip = new Equip(nomEquip, ciutat, estadi, president, anyFundacio, null);
                         llistaEquips.add(nouEquip);
 
-                        System.out.println("El equip " + nouEquip + "afegit correctament.");
+                        System.out.println("El equip " + nouEquip.getNombre() + "afegit correctament.");
                         break;
 
                     case 3:
@@ -145,7 +166,7 @@ public class Main {
                         int souAnual = sc.nextInt();
                         sc.nextLine();
 
-                        if (tipusPersona.equals("J")) {
+                        if (inicial == 'J') {
                             System.out.println("Dorsal: ");
                             int dorsalJugador = sc.nextInt();
                             sc.nextLine();
@@ -160,9 +181,17 @@ public class Main {
                             Jugador nouJugador = new Jugador(nomPersona, cognomPersona, dataNaixament, souAnual, dorsalJugador, posicioJugador, 0);
                             mercat.add(nouJugador);
 
+                            try (java.io.FileWriter fw = new java.io.FileWriter("src/fitxers/mercat_fitxatges.txt", true);
+                                 java.io.PrintWriter pw = new java.io.PrintWriter(fw)) {
+
+                                // Añadimos "\n" al principio para asegurar que la "J" NO se pegue al número anterior
+                                pw.print("\nJ;" + nomPersona + ";" + cognomPersona + ";" + dataNaixament + ";" + souAnual + ";" + dorsalJugador + ";0;" + posicioJugador + ";5.0");
+
+                            } catch (Exception e) { System.out.println("Error guardant fitxer"); }
+
                             System.out.println("Jugador afegit al mercat amb la motivació al 5 i la qualitat aleatòria");
 
-                        } else if (tipusPersona.equals("E")) {
+                        } else if (inicial == 'E') {
                             System.out.println("Número de tornejos guanyats: ");
                             int tornejosEntrenador = sc.nextInt();
                             sc.nextLine();
@@ -171,7 +200,7 @@ public class Main {
 
                             Entrenador nouEntrenador = new Entrenador(nomPersona, cognomPersona, dataNaixament, souAnual, tornejosEntrenador, esSeleccionadorEntrenador);
                             mercat.add(nouEntrenador);
-                            System.out.println("Entrenador afegit al mercat");
+
 
                         } else {
                             System.out.println("opcio incorrecta");
@@ -267,9 +296,8 @@ public class Main {
 
                             // 3. mostrar resultado
                             if (jugadorTrobat == null) {
-                                System.out.println("❌ Error: No s'ha trobat cap jugador amb aquest nom i dorsal en aquest equip.");
+                                System.out.println("No s'ha trobat cap jugador amb aquest nom i dorsal en aquest equip.");
                             } else {
-                                System.out.println("----------------------------------------");
                                 System.out.println("DADES DEL JUGADOR/A:");
                                 System.out.println("Nom complet: " + jugadorTrobat.getNombre() + " " + jugadorTrobat.getApellido());
                                 System.out.println("Dorsal: " + jugadorTrobat.getDorsal());
@@ -277,7 +305,6 @@ public class Main {
                                 System.out.println("Qualitat: " + String.format("%.1f", jugadorTrobat.getCalidad()));
                                 System.out.println("Motivació: " + jugadorTrobat.getMotivacion());
                                 System.out.println("Sou: " + jugadorTrobat.getSueldo() + "€");
-                                System.out.println("----------------------------------------");
                             }
                         }
                         break;
